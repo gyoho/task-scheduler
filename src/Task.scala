@@ -3,7 +3,7 @@
   */
 sealed trait Executable {
   def execute(): Result[T] = this match {
-    case Task(elem) => elem match {
+    case Task(contents, _) => contents match {
       case str: String => Success(str.toUpperCase)
       case num: Int => Success(num + 10)
     }
@@ -12,7 +12,8 @@ sealed trait Executable {
   }
 }
 
-case class Task[T](elem: T) extends Executable
+abstract case class Task[T](contents: T, timestamp: Long) extends Executable
+
 
 /**
   * Whenever we throw an exception we lose type safety as there is nothing in the type system that will remind us
