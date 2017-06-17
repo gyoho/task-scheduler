@@ -1,25 +1,26 @@
 /**
   * Structural Recursion using Pattern Matching
   */
-sealed trait Task {
-  def execute(): Result = this match {
-    case StringTask(str) => StringResult(str.toUpperCase)
-    case NumericTask(num) => NumericResult(num + 10)
+sealed trait Executable {
+  def execute(): Result[T] = this match {
+    case Task(elem) => elem match {
+      case str: String => Success(str.toUpperCase)
+      case num: Int => Success(num + 10)
+    }
+//    case Task[String](str) => Success(str.toUpperCase)
+//    case Task[Int](num) => Success(num + 10)
   }
 }
 
-// common type for Int, Double, and Float?
-case class NumericTask(num: Int) extends Task
-case class StringTask(str: String) extends Task
+case class Task[T](elem: T) extends Executable
 
 /**
   * Whenever we throw an exception we lose type safety as there is nothing in the type system that will remind us
   * to deal with the error. It would be much better to return some kind of result that encodes we can succeed or failure
   */
-sealed trait Result
-case class StringResult(str: String) extends Result
-case class NumericResult(num: Int) extends Result
-
+sealed trait Result[T]
+final case class Success[T](result: T) extends Result[T]
+final case class Failure[T](reason: String) extends Result[T]
 
 
 /**
