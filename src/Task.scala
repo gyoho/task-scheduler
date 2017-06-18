@@ -12,8 +12,9 @@ sealed trait Executable {
   }
 }
 
-abstract case class Task[T](contents: T, timestamp: Long) extends Executable
-
+abstract class Task[T](contents: T, timestamp: Long) extends Executable
+case class JsonParserTask(contents: String, timestamp: Long) extends Task[String](contents, timestamp)
+case class PiCalucTask(contents: Int, timestamp: Long) extends Task[Double](contents, timestamp)
 
 /**
   * Whenever we throw an exception we lose type safety as there is nothing in the type system that will remind us
