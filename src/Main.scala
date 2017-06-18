@@ -26,13 +26,13 @@ object Main {
 
       override def start()(implicit ec: ExecutionContext): Unit = {
         while(true) {
-          if (minHeap.peek().timestamp < System.currentTimeMillis()) {
-            val nextTask = minHeap.poll()
-            nextTask.task()
-          }        }
+          // put and take are blocking
+          val nextTask = minHeap.take()
+          if (nextTask.timestamp < System.currentTimeMillis) nextTask.task() else minHeap.put(nextTask)
+
+        }
       }
     }
-
 
     for (gap <- 0 to SECOND_IN_MILLI * 10 by SECOND_IN_MILLI) {
       scheduler.schedule(() => println(gap), System.currentTimeMillis() + gap)
