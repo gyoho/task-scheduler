@@ -4,12 +4,9 @@ import scala.concurrent.ExecutionContext
 import scala.util.Try
 
 object Main {
-  /**
-    * scala.collection.mutable.PriorityQueue is MAX heap by default
-    * to make it MIN heap use the custom Ordering
-    */
+
   object TimeOrder extends Ordering[ScheduledTask] {
-    override def compare(x: ScheduledTask, y: ScheduledTask): Int = y.timestamp compare x.timestamp
+    override def compare(x: ScheduledTask, y: ScheduledTask): Int = x.timestamp compare y.timestamp
   }
 
   val SECOND_IN_MILLI = 1000
@@ -21,7 +18,7 @@ object Main {
     val scheduler = new Scheduler {
       val size: Int = Try(args(0)).map(_.toInt).getOrElse(100)
       // Java's PriorityQueue is MIN heap by default
-      val minHeap = new PriorityBlockingQueue[ScheduledTask](size)
+      val minHeap = new PriorityBlockingQueue[ScheduledTask](size, TimeOrder)
 
       override def schedule(task: () => Unit, timestamp: Long): Unit = {
         minHeap.offer(ScheduledTask(task, timestamp))
