@@ -2,21 +2,23 @@ import java.util.concurrent.{Executors, PriorityBlockingQueue}
 import scala.concurrent.{ExecutionContext, Future}
 
 object Main {
-  object TimeOrder extends Ordering[ScheduledTask[_]] {
-    override def compare(x: ScheduledTask[_], y: ScheduledTask[_]): Int = y.timestamp compare x.timestamp
+  object TimeOrder extends Ordering[ScheduledTask] {
+    override def compare(x: ScheduledTask, y: ScheduledTask): Int = y.timestamp compare x.timestamp
   }
 
   def main(args: Array[String]): Unit = {
     val size: Int = Option(args(0)).map(_.toInt).getOrElse(100)
-    val minHeap = new PriorityBlockingQueue[ScheduledTask[_]](size, TimeOrder)
+    val minHeap = new PriorityBlockingQueue[ScheduledTask](size, TimeOrder)
 
     implicit val ec = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(10))
 
-    // defining an anonymous class that extends the trait and instantiating it at the same time
+    /**
+      * defining an anonymous class that extends the trait and instantiating it at the same time
+      */
     val scheduler = new Scheduler {
       // or minHeap is better to be in this scope
       // so it'll be destroyed with this scheduler
-      override def schedule(task: Executable[_], timestamp: Long): Unit = {
+      override def schedule(task: Executable, timestamp: Long): Unit = {
         minHeap.offer(ScheduledTask(task, timestamp))
       }
 

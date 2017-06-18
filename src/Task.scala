@@ -1,31 +1,31 @@
-/**
-  * Structural Recursion using Pattern Matching
-  */
-sealed trait Executable[T] {
 
-  def content: T
-
-  def execute(): Result[_] = this match {
-    case UpperCaseTask(str) => Success(str.toUpperCase)
-    case AreaCalucTask(radius) => Success(radius * radius * Math.PI)
-    case JsonParserTask(payload) => ???
+sealed trait Executable {
+  /**
+    * Structural Recursion using Pattern Matching
+    */
+  def execute(): Result = this match {
+    case UpperCaseTask(s) => Success(s.toUpperCase)
+    case AreaCalucTask(r) => Success(r * r * Math.PI)
+    case JsonParserTask(_) => Failure("not supported")
   }
 }
 
-case class UpperCaseTask(content: String) extends Executable[String]
-case class JsonParserTask(content: String) extends Executable[String]
-case class AreaCalucTask(content: Double) extends Executable[Double]
+
+case class UpperCaseTask(str: String) extends Executable
+case class JsonParserTask(radius: String) extends Executable
+case class AreaCalucTask(payload: Double) extends Executable
 
 
-case class ScheduledTask[T](task: Executable[T], timestamp: Long)
+case class ScheduledTask(task: Executable, timestamp: Long)
 
 
 /**
   * Use abstract class
   */
 //abstract class Task[T](content: T) extends Executable
-//case class JsonParserTask(content: String) extends Task[String](content, timestamp)
-//case class PiCalucTask(content: Int) extends Task[Double](content, timestamp)
+//case class UpperCaseTask(content: String) extends Task[String](content)
+//case class JsonParserTask(content: String) extends Task[String](content)
+//case class AreaCalucTask(content: Double) extends Task[Double](content)
 
 
 
@@ -33,9 +33,9 @@ case class ScheduledTask[T](task: Executable[T], timestamp: Long)
   * Whenever we throw an exception we lose type safety as there is nothing in the type system that will remind us
   * to deal with the error. It would be much better to return some kind of result that encodes we can succeed or failure
   */
-sealed trait Result[T]
-final case class Success[T](result: T) extends Result[T]
-final case class Failure[T](reason: String) extends Result[T]
+sealed trait Result
+final case class Success[T](result: T) extends Result
+final case class Failure(reason: String) extends Result
 
 
 /**
