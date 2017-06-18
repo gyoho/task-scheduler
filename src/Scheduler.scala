@@ -1,20 +1,8 @@
-import java.util.concurrent.{Future, PriorityBlockingQueue}
-
 import scala.concurrent.ExecutionContext
 
-trait Scheduler {
-  /**
-    * should include the queue as a property like class?
-    */
-  //  val minHeap: PriorityBlockingQueue[(Task, Long)]
-  def schedule(task: Executable, timestamp: Long): Unit
-  def start()(implicit ec: ExecutionContext): Unit
-}
+//type Task = () => Unit
 
-/**
-  * Choose among trait, object, class, or case class?
-  */
-class SchedulerImp(val minHeap: PriorityBlockingQueue[Executable]) extends Scheduler {
-  override def schedule(task: Executable, timestamp: Long): Unit = ???
-  override def start()(implicit ec: ExecutionContext): Unit = ???
+trait Scheduler {
+  def schedule(task: () => Unit, timestamp: Long): Unit
+  def start()(implicit ec: ExecutionContext): Unit
 }
