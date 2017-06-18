@@ -1,11 +1,12 @@
 import java.util.concurrent.{Executors, PriorityBlockingQueue}
 
 import scala.concurrent.ExecutionContext
+import scala.util.Try
 
 object Main {
 
   def main(args: Array[String]): Unit = {
-    val size: Int = Option(args(0)).map(_.toInt).getOrElse(100)
+    val size: Int = Try(args(0)).map(_.toInt).getOrElse(100)
     val minHeap = new PriorityBlockingQueue[ScheduledTask](size)
 
     implicit val ec = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(10))
