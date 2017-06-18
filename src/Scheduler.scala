@@ -7,14 +7,14 @@ trait Scheduler {
     * should include the queue as a property like class?
     */
   //  val minHeap: PriorityBlockingQueue[(Task, Long)]
-  def schedule[T](task: () => T, timestamp: Long): Future[T]
+  def schedule(task: Executable[_], timestamp: Long): Unit
   def start()(implicit ec: ExecutionContext): Unit
 }
 
 /**
   * Choose among trait, object, class, or case class?
   */
-class SchedulerImp(val minHeap: PriorityBlockingQueue[(Task, Long)]) extends Scheduler {
-  override def schedule[T](task: () => T, timestamp: Long): Future[T] = ???
+class SchedulerImp(val minHeap: PriorityBlockingQueue[Executable]) extends Scheduler {
+  override def schedule(task: Executable[_], timestamp: Long): Unit = ???
   override def start()(implicit ec: ExecutionContext): Unit = ???
 }

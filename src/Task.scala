@@ -1,20 +1,33 @@
 /**
   * Structural Recursion using Pattern Matching
   */
-sealed trait Executable {
-  def execute(): Result[T] = this match {
-    case Task(contents, _) => contents match {
-      case str: String => Success(str.toUpperCase)
-      case num: Int => Success(num + 10)
-    }
-//    case Task[String](str) => Success(str.toUpperCase)
-//    case Task[Int](num) => Success(num + 10)
+sealed trait Executable[T] {
+
+  def content: T
+
+  def execute(): Result[_] = this match {
+    case UpperCaseTask(str) => Success(str.toUpperCase)
+    case AreaCalucTask(radius) => Success(radius * radius * Math.PI)
+    case JsonParserTask(payload) => ???
   }
 }
 
-abstract class Task[T](contents: T, timestamp: Long) extends Executable
-case class JsonParserTask(contents: String, timestamp: Long) extends Task[String](contents, timestamp)
-case class PiCalucTask(contents: Int, timestamp: Long) extends Task[Double](contents, timestamp)
+case class UpperCaseTask(content: String) extends Executable[String]
+case class JsonParserTask(content: String) extends Executable[String]
+case class AreaCalucTask(content: Double) extends Executable[Double]
+
+
+case class ScheduledTask[T](task: Executable[T], timestamp: Long)
+
+
+/**
+  * Use abstract class
+  */
+//abstract class Task[T](content: T) extends Executable
+//case class JsonParserTask(content: String) extends Task[String](content, timestamp)
+//case class PiCalucTask(content: Int) extends Task[Double](content, timestamp)
+
+
 
 /**
   * Whenever we throw an exception we lose type safety as there is nothing in the type system that will remind us
