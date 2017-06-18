@@ -1,14 +1,12 @@
 import java.util.concurrent.{Executors, PriorityBlockingQueue}
-import scala.concurrent.{ExecutionContext, Future}
+
+import scala.concurrent.ExecutionContext
 
 object Main {
-  object TimeOrder extends Ordering[ScheduledTask] {
-    override def compare(x: ScheduledTask, y: ScheduledTask): Int = y.timestamp compare x.timestamp
-  }
 
   def main(args: Array[String]): Unit = {
     val size: Int = Option(args(0)).map(_.toInt).getOrElse(100)
-    val minHeap = new PriorityBlockingQueue[ScheduledTask](size, TimeOrder)
+    val minHeap = new PriorityBlockingQueue[ScheduledTask](size)
 
     implicit val ec = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(10))
 
