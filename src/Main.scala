@@ -23,9 +23,11 @@ object Main {
 
       override def start()(implicit ec: ExecutionContext): Unit = {
         // with the implicit ExecutionContext, this will be executed by the 10 threads?
-        if (minHeap.peek().timestamp < System.currentTimeMillis()) {
-          val nextTask = minHeap.poll()
-          nextTask.task.execute()
+        while (true) {
+          if (minHeap.peek().timestamp < System.currentTimeMillis()) {
+            val nextTask = minHeap.poll()
+            nextTask.task.execute()
+          }
         }
       }
     }
