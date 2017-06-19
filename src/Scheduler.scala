@@ -1,19 +1,23 @@
-import java.util.concurrent.PriorityBlockingQueue
+import java.util.concurrent.{Executors, PriorityBlockingQueue}
 
-import scala.concurrent.ExecutionContext
-
-//type Task = () => Unit
+import scala.concurrent.{ExecutionContext, Future}
 
 trait Scheduler {
-  def schedule(task: () => Unit, timestamp: Long): Unit
+  def schedule[T](task: () => T, timestamp: Long): Future[T]
   def start()(implicit ec: ExecutionContext): Unit
 }
 
 
-class SchedulerImp(val minHeap: PriorityBlockingQueue[ScheduledTask]) extends Scheduler {
+class SchedulerImp(val minHeap: PriorityBlockingQueue[ScheduledTask[_]]) extends Scheduler {
 
-  override def schedule(task: () => Unit, timestamp: Long): Unit = {
-    minHeap.offer(ScheduledTask(task, timestamp))
+  // ExecutionContext for Future
+  implicit val ec: ExecutionContext = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(5))
+
+  override def schedule[T](task: () => T, timestamp: Long): Future[T] = {
+    minHeap.offer(ScheduledTask[T](task, timestamp))
+    Future {
+      task()
+    }
   }
 
   override def start()(implicit ec: ExecutionContext): Unit = {
@@ -25,4 +29,4 @@ class SchedulerImp(val minHeap: PriorityBlockingQueue[ScheduledTask]) extends Sc
   }
 }
 
-case class ScheduledTask(task: () => Unit, timestamp: Long = System.currentTimeMillis() + 1000)
+case class ScheduledTask[T](task: () => T, timestamp: Long = System.currentTimeMillis() + 1000)
