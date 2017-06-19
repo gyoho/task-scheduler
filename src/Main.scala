@@ -27,7 +27,8 @@ object Main {
       ecClient.execute(new Runnable() {
         override def run(): Unit = {
           val threadId = Thread.currentThread.getId
-          scheduler.schedule(() => gap, System.currentTimeMillis() + gap)
+          val res = scheduler.schedule(() => gap, System.currentTimeMillis() + gap)
+          println(res)
         }
       })
     }
