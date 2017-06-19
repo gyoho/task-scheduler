@@ -14,7 +14,7 @@ trait Scheduler {
 /**
   * Choose among trait, object, class, or case class?
   */
-class SchedulerImp(val minHeap: PriorityBlockingQueue[Executable]) extends Scheduler {
+class SchedulerImp(val minHeap: PriorityBlockingQueue[ScheduledTask]) extends Scheduler {
   override def schedule(task: Executable, timestamp: Long): Unit = ???
   override def start()(implicit ec: ExecutionContext): Unit = ???
 }
