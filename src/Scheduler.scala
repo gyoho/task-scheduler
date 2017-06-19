@@ -24,3 +24,5 @@ class SchedulerImp(val minHeap: PriorityBlockingQueue[ScheduledTask]) extends Sc
     }
   }
 }
+
+case class ScheduledTask(task: () => Unit, timestamp: Long = System.currentTimeMillis() + 1000)
