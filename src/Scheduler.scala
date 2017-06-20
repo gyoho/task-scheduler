@@ -12,7 +12,7 @@ trait Scheduler {
 class SchedulerImp(
     val minHeap: PriorityBlockingQueue[ScheduledTask],
     // ExecutionContext for Future to execute a task in worker thread (not calling thread)
-    implicit val ec: ExecutionContext = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(5))
+    implicit val ec: ExecutionContext
 ) extends Scheduler {
 
   override def schedule(task: () => Unit, timestamp: Long): Unit = {
