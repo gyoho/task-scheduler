@@ -20,16 +20,18 @@ class SchedulerImp(
   }
 
   override def start()(implicit ec: ExecutionContext): Unit = {
-    while (true) {
-      // put and take are blocking
-      val nextTask = minHeap.take()
-      if (nextTask.timestamp < System.currentTimeMillis) {
-        Future {
-          nextTask.task()
+    Future {
+      while (true) {
+        // put and take are blocking
+        val nextTask = minHeap.take()
+        if (nextTask.timestamp < System.currentTimeMillis) {
+          Future {
+            nextTask.task()
+          }
+        } else {
+          minHeap.put(nextTask)
+          Thread.sleep(100)
         }
-      } else {
-        minHeap.put(nextTask)
-        Thread.sleep(100)
       }
     }
   }

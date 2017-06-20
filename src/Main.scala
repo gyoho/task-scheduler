@@ -21,6 +21,8 @@ object Main {
     val minHeap = new PriorityBlockingQueue[ScheduledTask](size, TimeOrder)
     val scheduler = new SchedulerImp(minHeap, ec)
 
+//    scheduler.start()  e.g if start is not wrapped by future, this will block next part
+
     for (gap <- 0 to SECOND_IN_MILLI * 10 by SECOND_IN_MILLI) {
         Future {
           val threadId = Thread.currentThread.getId
