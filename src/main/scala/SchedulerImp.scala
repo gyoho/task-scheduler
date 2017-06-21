@@ -13,14 +13,16 @@ class SchedulerImp(
       while (running) {
         // put and take are blocking
         val nextTask = minHeap.take()
-        val executionTime = nextTask.timestamp
-        if (executionTime < System.currentTimeMillis) {
+        val interval = nextTask.timestamp - System.currentTimeMillis
+        if (interval <= 0) {
           Future {
             nextTask.task()
           }
         } else {
           minHeap.put(nextTask)
-          this.wait(executionTime)
+          this.synchronized {
+            this.wait(interval)
+          }
         }
       }
     }
@@ -28,7 +30,9 @@ class SchedulerImp(
 
   override def schedule(task: () => Unit, timestamp: Long): Unit = {
     minHeap.offer(ScheduledTask(task, timestamp))
-    taskRunner.notify()
+    taskRunner.synchronized {
+      taskRunner.notify()
+    }
   }
 
   override def start()(implicit ec: ExecutionContext): Unit = {
