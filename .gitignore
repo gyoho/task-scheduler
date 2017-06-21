@@ -1,28 +1,22 @@
-#generic
-tmp/
-*.log
-*.swp
-*.diff
-*.patch
-.cache*
+# Created by .ignore support plugin (hsz.mobi)
+### SBT template
+# Simple Build Tool
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
-# macosx
-*.DS_Store
-
-# windows
-cachesThumbs.db
-Desktop.ini
-
-# java
-*.class
-*.jar
-*.war
-*.ear
-*.xml
-
-*.iml
-.idea/
-
+dist/*
 target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+### Scala template
+*.class
+*.log
 
 project/
+*.iml
+*.xml
+.idea/
