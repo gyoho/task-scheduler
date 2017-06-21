@@ -13,6 +13,7 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
   }
 
   val NUM_OF_THREAD = 5
+  val QUEUE_SIZE = 100
   val SECOND_IN_MILLI = 1000
 
   val ex: ExecutorService = Executors.newFixedThreadPool(NUM_OF_THREAD)
@@ -47,12 +48,12 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
 
   "The scheduler" should {
     "run task on schedule" in {
-      val minHeap = new PriorityBlockingQueue[ScheduledTask](100, TimeOrder)
+      val minHeap = new PriorityBlockingQueue[ScheduledTask](QUEUE_SIZE, TimeOrder)
       val scheduler = new SchedulerImp(minHeap)
       scheduler.start()  // if start is not wrapped by future, this will block the code below
 
       @volatile var executedAt: Long = 0
-      val executionTime = System.currentTimeMillis() + 1000 // run 1 second in the future
+      val executionTime = System.currentTimeMillis() + SECOND_IN_MILLI // run 1 second in the future
       scheduler.schedule(() => {executedAt = System.currentTimeMillis()}, executionTime)
 
       eventually(timeout(10.seconds)) {
