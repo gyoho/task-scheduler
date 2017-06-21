@@ -49,9 +49,7 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
     "run task on schedule" in {
       val minHeap = new PriorityBlockingQueue[ScheduledTask](100, TimeOrder)
       val scheduler = new SchedulerImp(minHeap)
-      scheduler.start()
-
-      //    scheduler.start()  e.g if start is not wrapped by future, this will block next part
+      scheduler.start()  // if start is not wrapped by future, this will block the code below
 
       for (gap <- 0 to SECOND_IN_MILLI * 10 by SECOND_IN_MILLI) {
         Future {
