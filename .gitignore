@@ -19,76 +19,7 @@ Desktop.ini
 *.war
 *.ear
 
-# eclipse
-.classpath
-.factorypath
-.project
-.pmd
-.checkstyle
-.ruleset
-.settings/
-.worksheet/
-
-# idea
 *.iml
-*.ipr
-*.iws
 .idea/
 
-# netbeans
-/nbproject
-
-# vim
-.*.sw[a-p]
-
-# merge tooling
-*.orig
-
-# maven
 target/
-*.versionsBackup
-*.releaseBackup
-
-# sbt
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
-
-# scala ide
-.scala_dependencies
-
-# haskell
-dist
-cabal-dev
-*.o
-*.hi
-*.chi
-*.chs.h
-.virthualenv
-
-# android
-*.apk
-*.ap_
-*.dex
-
-# monadserver
-monadserver*log*
-
-# adservices
-adservices*log*
-
-# httpservices
-httpservices*log*
-
-*~
-.ensime*
-
-# vagrant
-.vagrant/
-scripts/vagrant/shared/
-
-#python
-venv
