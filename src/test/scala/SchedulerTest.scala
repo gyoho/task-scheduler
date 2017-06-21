@@ -18,10 +18,24 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
   val ex: ExecutorService = Executors.newFixedThreadPool(NUM_OF_THREAD)
   implicit val ec: ExecutionContext = ExecutionContext.fromExecutorService(ex)
 
+  /**
+    * scalatest BeforeAndAfterAll provides setUpModule/tearDownModule
+    * this runs before/after this file execution
+    */
+
+  override def beforeAll(): Unit = {
+
+  }
+
   override def afterAll(): Unit = {
     ex.shutdown()
     super.afterAll()
   }
+
+  /**
+    * scalatest BeforeAndAfter provides setUp/tearDown
+    * this runs before/after EACH test
+    */
 
   before {
     // runs before each test

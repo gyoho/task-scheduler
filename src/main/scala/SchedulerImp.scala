@@ -6,7 +6,7 @@ class SchedulerImp(
     val minHeap: PriorityBlockingQueue[ScheduledTask]
 ) extends Scheduler {
 
-  @volatile var running = false
+  @volatile var running: Boolean = false
 
   override def schedule(task: () => Unit, timestamp: Long): Unit = {
     minHeap.offer(ScheduledTask(task, timestamp))
