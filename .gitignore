@@ -18,6 +18,7 @@ Desktop.ini
 *.jar
 *.war
 *.ear
+*.xml
 
 *.iml
 .idea/
