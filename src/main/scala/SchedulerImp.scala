@@ -2,9 +2,6 @@ import java.util.concurrent.PriorityBlockingQueue
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/**
-  * Created by yaopeng.wu on 6/20/17.
-  */
 class SchedulerImp(
     val minHeap: PriorityBlockingQueue[ScheduledTask]
 ) extends Scheduler {
