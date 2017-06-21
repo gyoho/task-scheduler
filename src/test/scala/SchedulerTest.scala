@@ -56,6 +56,11 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
       val executionTime = System.currentTimeMillis() + SECOND_IN_MILLI // run 1 second in the future
       scheduler.schedule(() => {executedAt = System.currentTimeMillis()}, executionTime)
 
+      /**
+        * scalatest.concurrent.Eventually provides timeout for executing a task to prevent infinite loop job
+        * if not finished within the time window, eventually will throw "TestFailedDueToTimeoutException"
+        * Use scala.concurrent.duration._ for specifying units (seconds, minutes, etc)
+        */
       eventually(timeout(10.seconds)) {
         executedAt should not be 0
       }
