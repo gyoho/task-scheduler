@@ -16,5 +16,7 @@ project/plugins/project/
 *.class
 *.log
 
+project/
 *.iml
-
+*.xml
+.idea/
