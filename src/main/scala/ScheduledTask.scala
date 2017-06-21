@@ -1,1 +1,1 @@
-case class ScheduledTask(task: () => Unit, timestamp: Long)
+case class ScheduledTask[T](task: () => T, timestamp: Long)
