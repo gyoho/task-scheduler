@@ -51,13 +51,6 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
       val scheduler = new SchedulerImp(minHeap)
       scheduler.start()  // if start is not wrapped by future, this will block the code below
 
-      for (gap <- 0 to SECOND_IN_MILLI * 10 by SECOND_IN_MILLI) {
-        Future {
-          val threadId = Thread.currentThread.getId
-          scheduler.schedule(() => println(s"Thread # = $threadId, Gap = $gap"), System.currentTimeMillis() + gap)
-        }
-      }
-
       @volatile var executedAt: Long = 0
       val executionTime = System.currentTimeMillis() + 1000 // run 1 second in the future
       scheduler.schedule(() => {executedAt = System.currentTimeMillis()}, executionTime)
