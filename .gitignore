@@ -1,60 +1,94 @@
-# Created by .ignore support plugin (hsz.mobi)
-### JetBrains template
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+#generic
+tmp/
+*.log
+*.swp
+*.diff
+*.patch
+.cache*
 
-# User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
+# macosx
+*.DS_Store
 
-# Sensitive or high-churn files:
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.xml
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
+# windows
+cachesThumbs.db
+Desktop.ini
 
-# Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
+# java
+*.class
+*.jar
+*.war
+*.ear
 
-# Mongo Explorer plugin:
-.idea/**/mongoSettings.xml
+# eclipse
+.classpath
+.factorypath
+.project
+.pmd
+.checkstyle
+.ruleset
+.settings/
+.worksheet/
 
-## File-based project format:
+# idea
+*.iml
+*.ipr
 *.iws
+.idea/
 
-## Plugin-specific files:
+# netbeans
+/nbproject
 
-# IntelliJ
-/out/
+# vim
+.*.sw[a-p]
 
-# mpeltonen/sbt-idea plugin
-.idea_modules/
+# merge tooling
+*.orig
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+# maven
+target/
+*.versionsBackup
+*.releaseBackup
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-### SBT template
-# Simple Build Tool
-# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
-
+# sbt
 dist/*
 target/
 lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
-.history
-.cache
-.lib/
 
-.idea/
+# scala ide
+.scala_dependencies
+
+# haskell
+dist
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+.virthualenv
+
+# android
+*.apk
+*.ap_
+*.dex
+
+# monadserver
+monadserver*log*
+
+# adservices
+adservices*log*
+
+# httpservices
+httpservices*log*
+
+*~
+.ensime*
+
+# vagrant
+.vagrant/
+scripts/vagrant/shared/
+
+#python
+venv
