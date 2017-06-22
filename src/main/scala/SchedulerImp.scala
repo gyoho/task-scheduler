@@ -17,7 +17,8 @@ class SchedulerImp(
         val interval = nextTask.timestamp - System.currentTimeMillis
         if (interval <= 0) {
           Future {
-            nextTask.promise.asInstanceOf[Promise[Any]].complete(Try(nextTask.task()))
+            val p = nextTask.promise.asInstanceOf[Promise[Any]]
+            p.complete(Try(nextTask.task()))
           }
         } else {
           minHeap.put(nextTask)
