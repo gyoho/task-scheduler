@@ -34,8 +34,15 @@ class SchedulerImp(
     val promise = Promise[T]()
 
     minHeap.offer(ScheduledTask(task, timestamp, promise))
-    taskRunner.synchronized {
-      taskRunner.notify()
+
+    if (!minHeap.isEmpty) {
+      val nextTask = minHeap.peek()
+
+      if (timestamp < nextTask.timestamp) {
+        taskRunner.synchronized {
+          taskRunner.notify()
+        }
+      }
     }
 
     promise.future
