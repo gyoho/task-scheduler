@@ -1,9 +1,10 @@
+import java.lang.Integer
 import java.util.concurrent.{ExecutorService, Executors, PriorityBlockingQueue}
 
 import org.scalatest.concurrent.Eventually
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, Matchers, WordSpec}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
@@ -55,10 +56,27 @@ class SchedulerTest extends WordSpec with Matchers with Eventually with BeforeAn
 
       @volatile var executedAt: Long = 0
       val executionTime = System.currentTimeMillis() + SECOND_IN_MILLI // run 1 second in the future
-      val res = scheduler.schedule(() => {executedAt = System.currentTimeMillis(); "Hello!"}, executionTime)
-      res.onComplete {
-        case Success(str) => println(str)
-        case Failure(expt) => println(expt)
+
+      for (num <- 1 to 5) {
+        Future {
+          val res = scheduler.schedule(
+            () => {
+              executedAt = System.currentTimeMillis()
+              if (num % 2 ==0) num else "hello"
+            },
+            executionTime
+          )
+
+          res.onComplete {
+            case Success(ret) =>
+              if (num % 2 ==0) {
+                ret should equal(num)
+              } else {
+                ret should equal("hello")
+              }
+            case Failure(expt) => println(expt)
+          }
+        }
       }
 
       /**
