@@ -10,6 +10,8 @@ class SchedulerImp(
   @volatile var running: Boolean = false
 
   val taskRunner = new {
+    @volatile var notified: Boolean = false
+
     def run()(implicit ec: ExecutionContext): Unit = {
       while (running) {
         // put and take are blocking
@@ -23,8 +25,11 @@ class SchedulerImp(
         } else {
           minHeap.put(nextTask)
           this.synchronized {
-            this.wait(interval)
+            if (!notified) {
+              this.wait(interval)
+            }
           }
+          notified = false
         }
       }
     }
@@ -40,6 +45,7 @@ class SchedulerImp(
 
       if (timestamp < nextTask.timestamp) {
         taskRunner.synchronized {
+          taskRunner.notified = true
           taskRunner.notify()
         }
       }
