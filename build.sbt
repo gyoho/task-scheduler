@@ -1,4 +1,4 @@
-name := "learning"
+name := "task-scheduler"
 
 version := "1.0"
 
